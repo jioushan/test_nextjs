@@ -1,5 +1,6 @@
 # Next + Postgres 提交表單範例 + Cloudflare Workers
-
+# 目前此项目 Cloudflare Workers 部署仍处于失败状态，本地next正常部署，请自行
+# `cp .env.example .env`创建`.env`文件配置数据库和验证 确保程式可以正确运行，自行反查DB，/admin还没完全完善好
 簡單的 Next.js 專案，包含：
 
 - 前端表單 (`/pages/index.js`)：`name`, `telephone`, `gender`, `other`。
