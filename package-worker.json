@@ -1,0 +1,21 @@
+{
+  "name": "next-postgres-form-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers with PostgreSQL via Hyperdrive",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler publish --dry-run",
+    "test": "node --loader ts-node/esm src/index.ts"
+  },
+  "dependencies": {
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.45.0",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.10.5"
+  }
+}

@@ -1,0 +1,41 @@
+name = "next-postgres-form"
+main = "src/index.ts"
+compatibility_date = "2024-12-09"
+compatibility_flags = ["nodejs_compat"]
+
+# Hyperdrive 綁定配置
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "7746ff370a09480684ad9720efa37ec2"  # 將此替換為你的 Hyperdrive ID
+
+# 環境變量
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# 如果需要 KV 存儲
+# [[kv_namespaces]]
+# binding = "KV_STORE"
+# id = "your_kv_namespace_id"
+
+# 構建設置
+[build]
+command = "npm install"
+
+#开启log
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
