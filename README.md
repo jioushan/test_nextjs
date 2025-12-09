@@ -22,7 +22,7 @@
 1. 複製專案並進入資料夾：
 
 ```bash
-cd /Users/yiri/Desktop/next-postgres-form
+cd /../next-postgres-form
 ```
 
 2. 建立 `.env`（可先從 `.env.example` 複製）並設定資料庫連線字串：
@@ -50,7 +50,7 @@ npm run dev
 
 ```bash
 # 1. 安裝 Wrangler CLI
-npm install -g @cloudflare/wrangler
+npm install -g wrangler
 
 # 2. 登錄 Cloudflare
 wrangler login
