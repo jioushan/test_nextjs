@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": [
+    "pages/**/*",
+    "next-env.d.ts",
+    ".next/types/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "src",
+    ".next",
+    "out"
+  ]
+}
