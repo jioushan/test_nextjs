@@ -26,18 +26,26 @@ export default function Home() {
     const country = countries[countryIndex]
     const telephone = (country ? country.dial : '') + (telephoneNumber || '')
 
-    // obtain captcha token depending on provider
+    // obtain captcha token depending on provider (if configured)
     const provider = process.env.NEXT_PUBLIC_2FA_PROVIDER || process.env.TWO_FA_PROVIDER
     let captchaToken = null
-    if (provider === 'recaptcha' && window.grecaptcha && window.__recaptchaSiteKey) {
-      captchaToken = await window.grecaptcha.execute(window.__recaptchaSiteKey, { action: 'submit' })
-    } else if (provider === 'turnstile' && window.turnstile) {
-      // turnstile widget should set window._turnstile_token via callback; fallback to invoking execute if v0.0 supports
-      captchaToken = window._turnstile_token || null
+    
+    // Only attempt to get captcha token if provider is configured
+    if (provider) {
+      if (provider === 'recaptcha' && window.grecaptcha && window.__recaptchaSiteKey) {
+        captchaToken = await window.grecaptcha.execute(window.__recaptchaSiteKey, { action: 'submit' })
+      } else if (provider === 'turnstile' && window.turnstile) {
+        // turnstile widget should set window._turnstile_token via callback; fallback to invoking execute if v0.0 supports
+        captchaToken = window._turnstile_token || null
+      }
     }
+    // Note: if provider is not configured, captchaToken will be null and backend will skip verification
 
     try {
-      const res = await fetch('/api/submit', {
+      // API endpoint: 本地用 /api/submit，生產環境用環境變數或自動偵測
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/submit'
+      
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, telephone, gender, more, email, captchaToken })

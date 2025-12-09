@@ -27,7 +27,7 @@ const WORKER_URL = "https://your-worker-name.your-account.workers.dev";
  */
 export async function checkHealth(): Promise<HealthResponse> {
   const response = await fetch(`${WORKER_URL}/api/health`);
-  return response.json();
+  return response.json() as Promise<HealthResponse>;
 }
 
 /**
@@ -35,7 +35,7 @@ export async function checkHealth(): Promise<HealthResponse> {
  */
 export async function getTables(): Promise<TableResponse> {
   const response = await fetch(`${WORKER_URL}/api/tables`);
-  return response.json();
+  return response.json() as Promise<TableResponse>;
 }
 
 /**
@@ -54,7 +54,7 @@ export async function executeQuery(query: string): Promise<QueryResponse> {
     throw new Error(`Query failed: ${response.statusText}`);
   }
 
-  return response.json();
+  return response.json() as Promise<QueryResponse>;
 }
 
 /**

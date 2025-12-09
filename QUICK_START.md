@@ -4,7 +4,7 @@
 
 ### 安裝必要工具
 ```bash
-npm install -g wrangler
+npm install -g @cloudflare/wrangler
 npm install
 ```
 

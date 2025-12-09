@@ -46,25 +46,31 @@ module.exports = async function handler(req, res) {
   if (!name) return res.status(400).json({ error: 'name is required' })
   if (email && !isValidEmail(email)) return res.status(400).json({ error: 'invalid email' })
 
-  // verify captcha according to provider
+  // verify captcha only if secrets are configured (optional feature)
   const provider = process.env.NEXT_PUBLIC_2FA_PROVIDER || process.env.TWO_FA_PROVIDER
-  if (!provider) return res.status(500).json({ error: 'captcha provider not configured (NEXT_PUBLIC_2FA_PROVIDER)' })
-  if (!captchaToken) return res.status(400).json({ error: 'captchaToken required' })
-
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET
+  const turnstileSecret = process.env.TURNSTILE_SECRET
+  
+  // Only verify captcha if at least one secret is configured
+  const captchaEnabled = recaptchaSecret || turnstileSecret
+  
   try {
-    if (provider === 'recaptcha') {
-      const secret = process.env.RECAPTCHA_SECRET
-      if (!secret) return res.status(500).json({ error: 'RECAPTCHA_SECRET not set' })
-      const vr = await verifyRecaptcha(captchaToken, secret)
-      if (!vr.success) return res.status(403).json({ error: 'recaptcha failed', detail: vr })
-    } else if (provider === 'turnstile') {
-      const secret = process.env.TURNSTILE_SECRET
-      if (!secret) return res.status(500).json({ error: 'TURNSTILE_SECRET not set' })
-      const vr = await verifyTurnstile(captchaToken, secret)
-      if (!vr.success) return res.status(403).json({ error: 'turnstile failed', detail: vr })
-    } else {
-      return res.status(500).json({ error: 'unknown provider' })
+    if (captchaEnabled) {
+      // Captcha is enabled, verify token
+      if (!captchaToken) return res.status(400).json({ error: 'captchaToken required' })
+      
+      if (provider === 'recaptcha') {
+        const vr = await verifyRecaptcha(captchaToken, recaptchaSecret)
+        if (!vr.success) return res.status(403).json({ error: 'recaptcha failed', detail: vr })
+      } else if (provider === 'turnstile') {
+        const vr = await verifyTurnstile(captchaToken, turnstileSecret)
+        if (!vr.success) return res.status(403).json({ error: 'turnstile failed', detail: vr })
+      } else if (provider) {
+        // Provider is set but unknown
+        return res.status(500).json({ error: 'unknown provider: ' + provider })
+      }
     }
+    // If captcha not enabled, skip verification entirely
 
     const pool = await getPool()
 
