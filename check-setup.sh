@@ -11,7 +11,7 @@ if command -v wrangler &> /dev/null; then
     echo "   ✅ Wrangler 已安裝: $(wrangler --version)"
 else
     echo "   ❌ Wrangler 未安裝"
-    echo "   安裝: npm install -g @cloudflare/wrangler"
+    echo "   安裝: npm install -g wrangler"
     exit 1
 fi
 
