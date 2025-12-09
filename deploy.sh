@@ -9,7 +9,7 @@ echo "🚀 開始部署到 Cloudflare Workers..."
 # 檢查 wrangler 是否安裝
 if ! command -v wrangler &> /dev/null; then
     echo "❌ Wrangler CLI 未安裝"
-    echo "安裝: npm install -g @cloudflare/wrangler"
+    echo "安裝: npm install -g wrangler"
     exit 1
 fi
 
